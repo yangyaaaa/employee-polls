@@ -1,54 +1,49 @@
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { setAuthedUser } from '../actions/authedUser';
-import { Breadcrumb } from 'antd';
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { setAuthedUser } from "../actions/authedUser";
+import "./App.css";
 
-const Navbar = ({ name, avatarURL, dispatch }) => {
-  const logout = (e) => {
-    e.preventDefault();
-    dispatch(setAuthedUser());
+const NavComponent = (props) => {
+  const handleLogOut = () => {
+    if (props.userData != null) {
+      props.dispatch(setAuthedUser(null));
+    }
   };
 
-  return (
-    <div style={{ display: 'flex', justifyContent: 'space-between',
-    borderBottom: '1px solid #ddd', paddingBottom: '10px' }}>
-      <Breadcrumb>
-        <Breadcrumb.Item>
-          <Link to="/">Home</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <Link to="/leaderboard">Leaderboard</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <Link to="/new">NewQuestion</Link>
-        </Breadcrumb.Item>
-      </Breadcrumb>
 
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-        <img 
-          src={avatarURL} 
-          alt={name} 
-          style={{ height: '40px', width: '40px', borderRadius: '50%', marginRight: '10px' }} 
-        />
-        <span>{name}</span>
-        <button
-          onClick={logout}
-          className='font-medium w-24 h-14 text-center hover:border-b-2 border-black'
-        >
-          Logout
-        </button>
-      </div>
+  return (
+    <div className="navbar-container">
+     <span> <img 
+        src={props.userData.avatarURL} 
+        alt="User Avatar" 
+        className="user-avatar"
+     />
+     {props.userData.name}</span>
+        <nav data-testid="testId-nav-component">
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/add">Add New Poll</Link>
+            </li>
+            <li>
+              <Link to="/leaderboard">Leaders Board</Link>
+            </li>
+            <li>
+              <Link to="/login" onClick={handleLogOut}>
+                Log out
+              </Link>
+            </li>
+          </ul>
+        </nav>
+
     </div>
   );
 };
 
-const mapStateToProps = ({ users, authedUser }) => {
-    const { name, avatarURL } = users[authedUser];
-
-  return {
-    name,
-    avatarURL,
-  };
+const mapStateToProps = ({ authedUser, users }) => {
+  return { userData: users[authedUser] };
 };
 
-export default connect(mapStateToProps)(Navbar);
+export default connect(mapStateToProps)(NavComponent);

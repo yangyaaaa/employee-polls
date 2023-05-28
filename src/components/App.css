@@ -1,73 +1,319 @@
-/* login css */
-.form-container {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f5f5f5;
+/* Login.css */
+
+body, html {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  overflow: auto;
+}
+.login-pic {
+  width: 500px;
+  height: auto; 
+}
+h2 {
+  text-align: center;
+}
+.login-form-input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
   border-radius: 5px;
 }
 
-.login-form {
+.login-form-input[type="submit"] {
+  background-color: #009688;
+  color: white;
+  cursor: pointer;
+}
+
+.login-form-input[type="submit"]:hover {
+  background-color: #00796b;
+}
+
+#errorMessage {
+  color: red;
+  margin-top: 10px;
+}
+
+/* Navbar.css */
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #009688;
+}
+
+.navbar-container span {
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.navbar-container ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navbar-container ul li {
+  margin-right: 20px;
+}
+
+.navbar-container ul li:last-child {
+  margin-right: 0;
+}
+
+.navbar-container ul li a {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.navbar-container ul li a:hover {
+  color: #00796b;
+}
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* makes the avatar circular */
+  margin-right: 10px; /* add some space between avatar and nav items */
+}
+
+.poll-list-container {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* poll list*/
+
+.poll-list-container button {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.poll-list-container button:hover {
+  background-color: white;
+  color: #4CAF50;
+  border: 2px solid #4CAF50;
+}
+
+.poll-list-container ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.poll-list-container li {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* poll details*/
+.poll-details-container {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.poll-details-container h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+#poll-detail-div {
+  width: 100%;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.poll-details-container input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.poll-details-container hr {
+  margin: 20px 0;
+}
+
+.poll-details-container span {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* add poll*/
+.add-poll-container {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.add-poll-container h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.add-poll-container form {
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.login-form label {
-  font-weight: bold;
+.add-poll-container label {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.add-poll-container textarea {
+  width: 100%;
+  height: 60px;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+}
+
+.add-poll-container input[type="submit"] {
+  padding: 10px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-poll-container input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.add-poll-container input[type="submit"]:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* poll item */
+
+.poll-item {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: 10px;
+}
+
+.poll-item h4 {
   margin-bottom: 5px;
 }
 
-.login-form select,
-.login-form input {
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.login-form button {
-  padding: 10px 20px;
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.login-form button:hover {
-  background-color: #45a049;
-}
-/* App.css */
-/* Common styles for both containers */
-.container {
-  border: 5px solid #ddd;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  margin: 10px;
-}
-
-/* Flex parent to arrange containers */
-.container-parent {
+.poll-metadata {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
 }
 
-/* Specific styles for each container */
-.container-unanswered {
-  background-color: #f9f9f9;
+.author-name,
+.poll-date {
+  margin: 0 10px;
 }
 
-.container-answered {
-  background-color: #e9f8f9;
+/* learderboard */
+.leaders-list {
+  padding:0;
+  list-style-type:none;
+  overflow: auto;
 }
 
-/* Make containers take full width on small screens */
-@media (max-width: 768px) {
-  .container {
-    flex: 0 0 100%;
-  }
+.leaders-list li {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  display:flex;
+  align-items: center;
 }
+
+.leaders-list li .user-data {
+  margin-left: 10px;
+}
+
+/* User component */
+.user-container {
+  display: flex;
+  margin-bottom: 20px;
+  padding: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.avatar-container {
+  margin-right: 20px;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-details {
+  flex-grow: 1;
+}
+
+.user-name {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.user-ranking {
+  display: block;
+  margin-bottom: 10px;
+  color: #777;
+}
+
+.separator {
+  margin: 10px 0;
+}
+
+.user-questions, .user-answers {
+  display: block;
+  margin-bottom: 5px;
+}
+
+
+
+
+
 
 

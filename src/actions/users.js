@@ -1,36 +1,25 @@
-import { handleAnswer } from "../actions/questions";
+export const GET_USERS ="GET_ALL_USERS";
+export const SET_USER_ANSWER ="GET_USER_ANSWER";
+export const UPDATE_USER_QUESTIONS ="UPDATE_USER_QUESTIONS";
 
-export const RECEIVE_USERS = "RECEIVE_USERS";
-export const ADD_QUESTION_TO_USER = "ADD_QUESTION_TO_USER";
-export const ADD_ANSWER_TO_USER = "ADD_ANSWER_TO_USER";
 
-export function receiveUsers(users) {
-  return {
-    type: RECEIVE_USERS,
-    users,
-  };
+
+export function getUsers(users){
+    return{
+        type: GET_USERS,
+        users
+    }
+}
+export function setUserAnswer(userId, pollId, answer){
+    return{
+        type: SET_USER_ANSWER,
+        userId, pollId, answer
+    }
 }
 
-export function addQuestionToUser({ id, author }) {
-  return {
-    type: ADD_QUESTION_TO_USER,
-    id,
-    author,
-  };
-}
-
-export function addAnswerToUser({ authedUser, qid, answer }) {
-  return {
-    type: ADD_ANSWER_TO_USER,
-    authedUser,
-    qid,
-    answer,
-  };
-}
-
-export function handleSaveQuestionAnswer(authUser, qid, answer) {
-  return (dispatch) => {
-    dispatch(addAnswerToUser(authUser, qid, answer));
-    dispatch(handleAnswer(authUser, qid, answer));
-  };
+export function updateUserQuestions (pollId, userId){
+    return{
+        type: UPDATE_USER_QUESTIONS,
+        pollId, userId
+    } 
 }

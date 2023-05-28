@@ -1,35 +1,19 @@
-export const LOGOUT_AUTHED_USER = "LOGOUT_AUTHED_USER";
 export const SET_AUTHED_USER = "SET_AUTHED_USER";
+export const GET_AUTHED_USER = "GET_AUTHED_USER";
 
-export function setAuthedUser(authedUser){
-    return {
+
+export function setAuthedUser(id){
+    return{
         type: SET_AUTHED_USER,
-        authedUser
+        id
     }
 }
 
-export function logoutAuthedUser() {
-    return {
-        type: LOGOUT_AUTHED_USER
+
+export function getAuthedUser(user){
+    return{
+        type: GET_AUTHED_USER,
+        user
     }
 }
 
-export function handleLogin(username, password){
-    return(dispatch, getState) => {
-        const {users} = getState();
-
-        const user = Object.values(users).find((user) =>
-            user.id === username && user.password === password
-        );
-
-        if(!!user){
-            return dispatch(setAuthedUser(user));
-        }
-    };
-}
-
-export function handleLogout() {
-    return (dispatch) => {
-        return dispatch(logoutAuthedUser());
-    }
-}

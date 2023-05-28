@@ -1,44 +1,82 @@
-import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { connect } from "react-redux";
+import PollsList from "./PollsList";
 import { handleInitialData } from "../actions/initData";
-import Dashboard from "./dashboard/Dashboard";
-import NewPoll from "./NewQuestion";
-import Leaderboard from "./Leaderboard";
-import Navbar from "./NavBar";
+import { Fragment, useEffect } from "react";
+import { connect } from "react-redux";
+import { LoadingBar } from "react-redux-loading-bar";
+import { Route, Routes } from "react-router";
+import PollDetails from "./PollDetails";
+import AddPoll from "./AddPoll";
+import Leaders from "./Leaderboard";
 import Login from "./Login";
-import PollQuestion from "./PollQuestion";
-import Page404 from "./PageNotFound";
-import './App.css';
+import NavComponent from "./NavBar";
+import ErrorPage from "./PageNotFound";
+import { Navigate, useLocation } from "react-router-dom";
 
-function App  ({ authedUser, dispatch }) {
+function App(props) {
+  const location = useLocation();
+
   useEffect(() => {
-    dispatch(handleInitialData());
-  }, [dispatch]);
+    props.dispatch(handleInitialData());
+  });
+
+  const isUserAuthorized = props.authedUser !== null;
+
+  console.log("!isUserAuthorized", !isUserAuthorized);
+
+  function ProtectedRoute({ children }) {
+    return isUserAuthorized ? (
+      children
+    ) : (
+      <Navigate to="/login" replace state={{ path: location.pathname }} />
+    );
+  }
 
   return (
-    <Router>
-      {authedUser !== null ? (
-        <>
-        <Navbar />
-        <Routes>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/' element={<Dashboard />}/>
-          <Route path='/leaderboard' element={<Leaderboard />}/>
-          <Route path='/questions/:id' element={<PollQuestion />}/>
-          <Route path="/new" element={<NewPoll />} />
-          <Route path="*" element={<Page404/>}/>
-        </Routes>
-        </>
-      ):(
-        <Login />
-      )}
-    </Router>
-  );
-};
+    <Fragment>
+      {!isUserAuthorized ? null : <NavComponent />}
+      <LoadingBar />
+      <Routes>
+        <Route
+          path="/"
+          exact
+          element={
+            <ProtectedRoute>
+              <PollsList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/questions/:id"
+          element={
+            <ProtectedRoute>
+              <PollDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/add"
+          element={
+            <ProtectedRoute>
+              <AddPoll />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/leaderboard"
+          element={
+            <ProtectedRoute>
+              <Leaders />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/login" element={<Login />} />
 
-const mapStateToProps = ({ authedUser }) => ({
-  authedUser,
-});
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
+    </Fragment>
+  );
+}
+
+const mapStateToProps = ({ authedUser }) => ({ authedUser });
 
 export default connect(mapStateToProps)(App);

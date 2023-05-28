@@ -1,24 +1,15 @@
-import { getInitialData, saveQuestionAnswer } from "../utils/test/api";
-import { receiveUsers, addAnswerToUser } from "./users";
-import { receiveQuestions, handleAnswer } from "./questions";
+import { showLoading, hideLoading } from "react-redux-loading-bar";
+import { getIntialData } from "../utils/api";
+import { getUsers } from "./users";
+import { getPolls } from "./questions";
 
-export const handleInitialData = () => {
-  return async (dispatch) => {
-    const { users, questions } = await getInitialData();
-    dispatch(receiveUsers(users));
-    dispatch(receiveQuestions(questions));
-  };
-};
-
-export const handleSaveAnswer = (answer) => {
+export function handleInitialData() {
   return (dispatch) => {
-    saveQuestionAnswer(answer)
-      .then(() => {
-        dispatch(handleAnswer(answer));
-        dispatch(addAnswerToUser(answer));
-      })
-      .catch((e) => {
-        console.warn("Error in handleSaveAnswer: ", e);
-      });
+    dispatch(showLoading());
+    return getIntialData().then(({users, polls}) => {
+      dispatch(getUsers(users));
+      dispatch(getPolls(polls));
+      dispatch(hideLoading);
+    });
   };
-};
+}

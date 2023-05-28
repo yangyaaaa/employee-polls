@@ -1,35 +1,31 @@
 import {
-    RECEIVE_USERS,
-    ADD_QUESTION_TO_USER,
-    ADD_ANSWER_TO_USER,
+    GET_USERS,
+    SET_USER_ANSWER,
+    UPDATE_USER_QUESTIONS,
   } from "../actions/users";
   
   export default function users(state = {}, action) {
     switch (action.type) {
-      case RECEIVE_USERS:
+      case GET_USERS:
+        return action.users;
+      case SET_USER_ANSWER:
         return {
           ...state,
-          ...action.users,
-        };
-      case ADD_QUESTION_TO_USER:
-        const { id, author } = action;
-        return {
-          ...state,
-          [author]: {
-            ...state[author],
-            questions: state[author].questions.concat(id),
+          [action.userId]: {
+            ...state[action.userId],
+            answers: {
+              ...state[action.userId].answers,
+              [action.pollId]: action.answer,
+            },
           },
         };
-      case ADD_ANSWER_TO_USER:
-        const { authedUser, qid, answer } = action;
+  
+      case UPDATE_USER_QUESTIONS:
         return {
           ...state,
-          [authedUser]: {
-            ...state[authedUser],
-            answers: {
-              ...state[authedUser].answers,
-              [qid]: answer,
-            },
+          [action.userId]: {
+            ...state[action.userId],
+            questions: state[action.userId].questions.concat(action.pollId),
           },
         };
       default:

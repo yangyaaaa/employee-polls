@@ -1,14 +1,10 @@
-import { connect } from "react-redux";
-
-const Page404 = () => {
+const ErrorPage = () => {
   return (
     <div>
-        <h1 className='text-3xl font-bold mt-9 text-center'>Error 404</h1>
-        <h2 className='text-3xl font-bold mt-9 text-center'>Page Not Found</h2>
+      <h1>404 Not Available</h1>
+      <p>There is not such Poll, please try again for a valid one</p>
     </div>
-)
-  }
+  );
+};
 
-  const mapStateToProps = () => ({});
-
-  export default connect(mapStateToProps)(Page404);
+export default ErrorPage;

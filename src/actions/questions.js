@@ -1,38 +1,32 @@
-import { saveQuestion } from "../utils/test/api";
-import { addQuestionToUser } from "./users";
+import { showLoading, hideLoading } from "react-redux-loading-bar";
+import { savePoll } from "../utils/api";
+import {updateUserQuestions} from "./users";
 
-export const RECEIVE_QUESTIONS = "RECEIVE_QUESTIONS";
-export const ADD_QUESTION = "ADD_QUESTION";
-export const SAVE_QUESTION_ANSWER = "SAVE_QUESTION_ANSWER";
+export const GET_POLLS = "GET_ALL_POLLS";
+export const CREATE_POLL = "CREATE_POLL";
 
-export function receiveQuestions(questions) {
+export function getPolls(polls) {
   return {
-    type: RECEIVE_QUESTIONS,
-    questions,
+    type: GET_POLLS,
+    polls,
   };
 }
 
-function addQuestion(question) {
+function createPoll(poll) {
   return {
-    type: ADD_QUESTION,
-    question,
+    type: CREATE_POLL,
+    poll,
   };
 }
 
-export function handleAddQuestion(question) {
+export function handleAddPoll(poll) {
   return (dispatch) => {
-    return saveQuestion(question).then((question) => {
-      dispatch(addQuestion(question));
-      dispatch(addQuestionToUser(question));
-    });
-  };
-}
-
-export function handleAnswer({ authedUser, qid, answer }) {
-  return {
-    type: SAVE_QUESTION_ANSWER,
-    authedUser,
-    qid,
-    answer,
+    dispatch(showLoading);
+    savePoll(poll)
+      .then((poll) => {
+        dispatch(createPoll(poll));
+        dispatch(updateUserQuestions(poll.id, poll.author))
+      })
+      .then(() => dispatch(hideLoading));
   };
 }

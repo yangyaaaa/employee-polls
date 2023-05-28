@@ -1,9 +1,11 @@
+import { func } from "prop-types"
+
 let users = {
   sarahedo: {
     id: 'sarahedo',
     password:'password123',
     name: 'Sarah Edo',
-    avatarURL: "https://i.ibb.co/DRkJP5W/employee3.png",
+    avatarURL: "https://i.ibb.co/42Z3Xgz/employee3.png",
     answers: {
       "8xf0y6ziyjabvozdd253nd": 'optionOne',
       "6ni6ok3ym7mf1p33lnez": 'optionOne',
@@ -16,7 +18,7 @@ let users = {
     id: 'tylermcginnis',
     password:'abc321',
     name: 'Tyler McGinnis',
-    avatarURL: "https://i.ibb.co/QrKc0ZV/employee5.webp",
+    avatarURL: "https://i.ibb.co/R2Xd6pJ/employee5.webp",
     answers: {
       "vthrdm985a262al8qx3do": 'optionOne',
       "xj352vofupe1dqz9emx13r": 'optionTwo',
@@ -27,7 +29,7 @@ let users = {
     id: 'mtsamis',
     password:'xyz123',
     name: 'Mike Tsamis',
-    avatarURL: "https://i.ibb.co/Bs5sfxz/employee4.webp",
+    avatarURL: "https://i.ibb.co/GQ83zb3/employee4.webp",
     answers: {
       "xj352vofupe1dqz9emx13r": 'optionOne',
       "vthrdm985a262al8qx3do": 'optionTwo',
@@ -39,7 +41,7 @@ let users = {
     id: 'zoshikanlu',
     password:'pass246',
     name: 'Zenobia Oshikanlu',
-    avatarURL: "https://i.ibb.co/K7wnKtG/employee2.png",
+    avatarURL: "https://i.ibb.co/gMn4CdX/employee6.webp",
     answers: {
       "xj352vofupe1dqz9emx13r": 'optionOne',
     },
@@ -128,10 +130,6 @@ let questions = {
   },
 }
 
-function generateUID () {
-  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-}
-
 export function _getUsers () {
   return new Promise((resolve) => {
     setTimeout(() => resolve({...users}), 1000)
@@ -144,21 +142,6 @@ export function _getQuestions () {
   })
 }
 
-function formatQuestion ({ optionOneText, optionTwoText, author }) {
-  return {
-    id: generateUID(),
-    timestamp: Date.now(),
-    author,
-    optionOne: {
-      votes: [],
-      text: optionOneText,
-    },
-    optionTwo: {
-      votes: [],
-      text: optionTwoText,
-    }
-  }
-}
 
 export function _saveQuestion (question) {
   return new Promise((resolve, reject) => {
@@ -210,4 +193,27 @@ export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
       resolve(true)
     }, 500)
   })
+}
+
+
+export function formatQuestion({ optionOneText, optionTwoText, author }) {
+  return {
+    id: generateUID(),
+    timestamp: Date.now(),
+    author,
+    optionOne: {
+      votes: [],
+      text: optionOneText,
+    },
+    optionTwo: {
+      votes: [],
+      text: optionTwoText,
+    },
+  };
+}
+export function generateUID() {
+  return (
+    Math.random().toString(36).substring(2, 15) +
+    Math.random().toString(36).substring(2, 15)
+  );
 }

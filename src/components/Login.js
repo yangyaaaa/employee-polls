@@ -1,69 +1,89 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { setAuthedUser } from '../actions/authedUser';
-import { connect } from 'react-redux';
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { setAuthedUser } from "../actions/authedUser";
+import { connect } from "react-redux";
 import "./App.css";
 
-const Login = ({ users, dispatch }) => {
-  const [selectedUser, setSelectedUser] = useState("");
-  const [password, setPassword] = useState("");
-  const location = useLocation();
+const Login = (props) => {
+  const navigate = useNavigate();
+  const {state} = useLocation();
+  const [userName, setUserName] = useState("");
+  const [password, setUserPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  // Check if the user was redirected from a protected route
-  const shouldShowAlert = location.state && location.state.from;
 
+  const autheduser = Object.values(props.users).filter((user) => {
+    return user.name === userName && user.password === password;
+  });
 
-  const handleSubmit = (e) => {
+  const handleLogIn = (e) => {
     e.preventDefault();
-    const selectedUserObj = users.find((user) => user.id === selectedUser);
-
-    if (selectedUserObj && selectedUserObj.password === password) {
-      dispatch(setAuthedUser(selectedUser));
+    if (!autheduser || userName === "" || password === "" || autheduser.length === 0) {
+      setErrorMessage("Invalide user Log In");
     } else {
-      // Display an error message or perform any other action for incorrect password
-      alert("Incorrect password");
+      console.log("autheduser: ", autheduser);
+      props.dispatch(setAuthedUser(autheduser[0].id));
+      setErrorMessage("success");
+      console.log("location.pathname", state?.pathname);
+      navigate(state?.pathname || "/");
     }
+  };
+  
+
+  const handleUserName = (e) => {
+    const user = e.target.value;
+    console.log(user);
+    setUserName(user);
+  };
+
+  const handleUserPassword = (e) => {
+    const password = e.target.value;
+    console.log(password);
+    setUserPassword(password);
   };
 
   return (
-    <div className="form-container">
-    <form className="login-form" onSubmit={handleSubmit}>
-      <h2>Login</h2>
-      {shouldShowAlert && alert("Please log in first.")}
-      <label htmlFor="user">Select User:</label>
-      <select
-        id="user"
-        value={selectedUser}
-        onChange={(e) => setSelectedUser(e.target.value)}
-      >
-        <option value="" disabled>
-          Select a user
-        </option>
-        {users.map((user) => (
-          <option key={user.id} value={user.id}>
-            {user.name}
-          </option>
-        ))}
-      </select>
-      <label htmlFor="password">Password:</label>
-      <input
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        type="password"
-        placeholder="********"
-        id="password"
-        name="password"
-      />
-      <button type="submit">Log In</button>
-    </form>
-  </div>
-);
+    <div>
+      <img
+          src={
+            "https://i.ibb.co/9pMsBJX/employee.png"
+          }
+          alt= 'employee poll'
+          className="login-pic"
+        />
+        <h2>Log In</h2>
+      <form onSubmit={handleLogIn}>
+        <input
+          data-testid="testId-name-input"
+          type="text"
+          className="login-form-input"
+          placeholder={"Enter User Name"}
+          onChange={handleUserName}
+        />
+        <input
+          data-testid="testId-password-input"
+          type="password"
+          className="login-form-input"
+          placeholder={"Enter Password"}
+          onChange={handleUserPassword}
+        />
+        <input
+          data-testid="testId-submit-button"
+          type="submit"
+          className="login-form-input"
+        />
+        <span
+          id="errorMessage"
+          style={{ color: "red" }}
+          data-testid="error-notifier"
+        >
+          {errorMessage}
+        </span>
+      </form>
+    </div>
+  );
 };
 
-const mapStateToProps = ({ users }) => {
-return {
-  users: Object.values(users),
-};
-};
+const mapStateToProps = (props) => props;
 
 export default connect(mapStateToProps)(Login);
