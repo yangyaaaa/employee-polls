@@ -33,6 +33,15 @@ After you have installed the dependencies, you can launch the project:
 
 The application should now be running at http://localhost:3000.
 
+## How to login the app with provided users name and password:
+
+The users name and passwords are provided, which you can find in the ./utils/\_\_DATA.js file.
+
+If you try to login please make sure to input the correct user's name with first capital letter.
+For instance:
+
+Enter User Name: Sarah Edo
+
 ## Testing
 
 To run the tests for the application, use:
