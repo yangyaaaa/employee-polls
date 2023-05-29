@@ -51,7 +51,9 @@ Object {
             class="login-form-input"
             data-testid="testId-password-input"
             placeholder="Enter Password"
+            readonly=""
             type="password"
+            value=""
           />
           <input
             class="login-form-input"
@@ -114,7 +116,9 @@ Object {
           class="login-form-input"
           data-testid="testId-password-input"
           placeholder="Enter Password"
+          readonly=""
           type="password"
+          value=""
         />
         <input
           class="login-form-input"

@@ -1,48 +1,34 @@
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
-import configureStore from "redux-mock-store";
-import { MemoryRouter } from "react-router-dom";
+import { configureStore } from "@reduxjs/toolkit";
 import Login from "../components/Login";
+import userReducer from "../../reducers/users";
+import authedUserReducer from "../../reducers/authedUser";
 
-const mockStore = configureStore([]);
-
-
-describe("<Login />", () => {  
+describe("<Login />", () => {
   let store;
   let component;
 
   beforeEach(() => {
-    store = mockStore({
-      users: {
-        user1: {
-          id: 'sarahedo',
-          name: 'Sarah Edo',
-          password: 'password123',
-        },
-        user2: {
-          id: 'tylermcginnis',
-          name: 'Tyler McGinnis',
-          password: 'abc321',
-        },
-        user3: {
-          id: 'mtsamis',
-          name:'Mike Tsamis',
-          password: 'xyz123',
-        },
-        user4: {
-          id: 'zoshikanlu',
-          name:'Zenobia Oshikanlu',
-          password:'pass246',
-        }
+    store = configureStore({
+      reducer: {
+        users: userReducer,
+        authedUser: authedUserReducer,
       },
     });
-    store.dispatch = jest.fn();
+
+    store.dispatch({
+      type: "users/add",
+      payload: {
+        id: "sarahedo",
+        name: "Sarah Edo",
+        password: "password123",
+      },
+    });
 
     component = render(
       <Provider store={store}>
-        <MemoryRouter>
-          <Login />
-        </MemoryRouter>
+        <Login />
       </Provider>
     );
   });
@@ -51,14 +37,45 @@ describe("<Login />", () => {
     expect(component).toBeTruthy();
   });
 
-  it("should match previous snapshot", () => {
-    expect(component).toMatchSnapshot();
+  it("should update username select value and password on change", async () => {
+    const usernameSelect = component.getByTestId("testId-name-input");
+    fireEvent.change(usernameSelect, { target: { value: "Sarah Edo" } });
+
+    const passwordInput = component.getByTestId("testId-password-input");
+
+    await waitFor(() => expect(usernameSelect.value).toBe("Sarah Edo"));
+
+    // password field should be updated automatically when username is selected
+    expect(passwordInput.value).toBe("password123");
   });
 
-
-  it("should update username select value on change", () => {
-    const usernameSelect = component.getByTestId('testId-name-input');
-    fireEvent.change(usernameSelect, { target: { value: 'Sarah Edo' } });
-    expect(usernameSelect).toHaveValue('Sarah Edo');
+  it("should not allow the password field to be manually edited", () => {
+    const passwordInput = component.getByTestId("testId-password-input");
+    fireEvent.change(passwordInput, { target: { value: "newPassword" } });
+    expect(passwordInput.value).toBe("password123");
   });
-})
+
+  it("should display error message when trying to log in without valid credentials", async () => {
+    const usernameSelect = component.getByTestId("testId-name-input");
+    fireEvent.change(usernameSelect, { target: { value: "Invalid User" } });
+
+    const submitButton = component.getByTestId("testId-submit-button");
+    fireEvent.click(submitButton);
+
+    const errorMessage = await component.findByTestId("error-notifier");
+
+    expect(errorMessage.textContent).toBe("Invalide user Log In");
+  });
+
+  it("should successfully log in with valid credentials", async () => {
+    const usernameSelect = component.getByTestId("testId-name-input");
+    fireEvent.change(usernameSelect, { target: { value: "Sarah Edo" } });
+
+    const submitButton = component.getByTestId("testId-submit-button");
+    fireEvent.click(submitButton);
+
+    await waitFor(() =>
+      expect(store.getState().authedUser).toBe("sarahedo")
+    );
+  });
+});

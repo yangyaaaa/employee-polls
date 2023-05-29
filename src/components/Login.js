@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { setAuthedUser } from "../actions/authedUser";
 import { connect } from "react-redux";
 import "./App.css";
@@ -31,10 +31,18 @@ const Login = (props) => {
   
 
   const handleUserName = (e) => {
-    const user = e.target.value;
-    console.log(user);
-    setUserName(user);
+    setUserName(e.target.value);
   };
+
+  // listen to userName changes and set password accordingly
+  useEffect(() => {
+    const selectedUser = Object.values(props.users).find(
+      (user) => user.name === userName
+    );
+    if (selectedUser) {
+      setUserPassword(selectedUser.password);
+    }
+  }, [userName, props.users]);
 
   const handleUserPassword = (e) => {
     const password = e.target.value;
@@ -57,7 +65,7 @@ const Login = (props) => {
           data-testid="testId-name-input"
           className="login-form-input"
           onChange={handleUserName}
-          defaultValue=""
+          value = {userName}
         >
           <option disabled value="">Select User Name</option>
           {Object.values(props.users).map(user => (
@@ -66,12 +74,13 @@ const Login = (props) => {
             </option>
           ))}
         </select>
-        <input
+       <input
           data-testid="testId-password-input"
           type="password"
           className="login-form-input"
           placeholder={"Enter Password"}
-          onChange={handleUserPassword}
+          value={password} // Here, password is now a controlled component
+          readOnly  // make password field read-only as it should not be editable
         />
         <input
           data-testid="testId-submit-button"
