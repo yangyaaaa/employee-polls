@@ -53,13 +53,19 @@ const Login = (props) => {
         />
         <h2>Log In</h2>
       <form onSubmit={handleLogIn}>
-        <input
+      <select
           data-testid="testId-name-input"
-          type="text"
           className="login-form-input"
-          placeholder={"Enter User Name"}
           onChange={handleUserName}
-        />
+          defaultValue=""
+        >
+          <option disabled value="">Select User Name</option>
+          {Object.values(props.users).map(user => (
+            <option key={user.id} value={user.name}>
+              {user.name}
+            </option>
+          ))}
+        </select>
         <input
           data-testid="testId-password-input"
           type="password"

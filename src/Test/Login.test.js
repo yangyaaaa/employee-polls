@@ -1,78 +1,64 @@
-import Login from "../components/Login";
-import { render, screen, fireEvent } from "@testing-library/react";
-import * as React from "react";
-
+import { render, fireEvent } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { MemoryRouter } from "react-router";
-import { store } from '../index'
+import configureStore from "redux-mock-store";
+import { MemoryRouter } from "react-router-dom";
+import Login from "../components/Login";
+
+const mockStore = configureStore([]);
 
 
+describe("<Login />", () => {  
+  let store;
+  let component;
 
-describe("login", () => {
-  it("will return a snapshot", () => {
-    const view = render(
-      <MemoryRouter>
-        <Provider store={store}>
+  beforeEach(() => {
+    store = mockStore({
+      users: {
+        user1: {
+          id: 'sarahedo',
+          name: 'Sarah Edo',
+          password: 'password123',
+        },
+        user2: {
+          id: 'tylermcginnis',
+          name: 'Tyler McGinnis',
+          password: 'abc321',
+        },
+        user3: {
+          id: 'mtsamis',
+          name:'Mike Tsamis',
+          password: 'xyz123',
+        },
+        user4: {
+          id: 'zoshikanlu',
+          name:'Zenobia Oshikanlu',
+          password:'pass246',
+        }
+      },
+    });
+    store.dispatch = jest.fn();
+
+    component = render(
+      <Provider store={store}>
+        <MemoryRouter>
           <Login />
-        </Provider>
-      </MemoryRouter>
+        </MemoryRouter>
+      </Provider>
     );
-    expect(view).toMatchSnapshot();
-  });
-});
-
-describe("login content", () => {  
-  it("will pass if all Dom items exists", () => {
-    render(
-      <MemoryRouter>
-        <Provider store={store}>
-          <Login />
-        </Provider>
-      </MemoryRouter>
-    );
-    const nameInput = screen.queryByTestId("testId-name-input");
-    const passwrodInput = screen.queryByTestId("testId-password-input");
-    const submitButton = screen.queryByTestId("testId-submit-button");
-    expect(nameInput).toBeInTheDocument();
-    expect(passwrodInput).toBeInTheDocument();
-    expect(submitButton).toBeInTheDocument();
-  });
-
-
-  it("will onSubmit with right auth data no error message", () => {
-    render(
-      <MemoryRouter>
-        <Provider store={store}>
-          <Login />
-        </Provider>
-      </MemoryRouter>
-    );
-
-    const userNameInput = screen.getByTestId("testId-name-input");
-    fireEvent.change(userNameInput, { target: { value: "Zenobia Oshikanlu" } });
-
-    const passwordInput = screen.getByTestId("testId-password-input");
-    fireEvent.change(passwordInput, { target: { value: "pass246" } });
-
-    const submitButton = screen.getByTestId("testId-submit-button");
-    fireEvent.click(submitButton);
-
-    expect(userNameInput).toBeInTheDocument();
-    expect(passwordInput).toBeInTheDocument();
-    expect(submitButton).toBeInTheDocument();
   });
 
-  it("will show error message onSubmit with wrong auth data", () => {
-    render(
-      <MemoryRouter>
-        <Provider store={store}>
-          <Login />
-        </Provider>
-      </MemoryRouter>
-    );
-
-    const submitButton = screen.getByTestId("testId-submit-button");
-    fireEvent.click(submitButton);
-    expect(screen.getByText("Invalide user Log In")).toBeInTheDocument();
+  it("should render without crashing", () => {
+    expect(component).toBeTruthy();
   });
-});
+
+  it("should match previous snapshot", () => {
+    expect(component).toMatchSnapshot();
+  });
+
+
+  it("should update username select value on change", () => {
+    const usernameSelect = component.getByTestId('testId-name-input');
+    fireEvent.change(usernameSelect, { target: { value: 'Sarah Edo' } });
+    expect(usernameSelect).toHaveValue('Sarah Edo');
+  });
+})

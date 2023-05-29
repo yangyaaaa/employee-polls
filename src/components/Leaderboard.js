@@ -26,7 +26,7 @@ export function Leaders() {
 
   return (
     <div>
-      {users.map((user, index) => <User userData={user} ranking={index + 1} />)}
+      {users.map((user, index) => <User key={user.id} userData={user} ranking={index + 1} />)}
     </div>
   );
 }

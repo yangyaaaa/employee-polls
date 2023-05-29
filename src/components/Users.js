@@ -23,9 +23,13 @@ const User = ({ userData, ranking }) => {
   );
 };
 
+User.defaultProps = {
+  ranking: 0,
+};
+
 User.propTypes = {
   userData: PropTypes.object.isRequired,
-  ranking: PropTypes.number.isRequired
+  ranking: PropTypes.number
 }
 
 export default User;

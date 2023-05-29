@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`login will return a snapshot 1`] = `
+exports[`<Login /> should match previous snapshot 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
@@ -15,12 +15,38 @@ Object {
           Log In
         </h2>
         <form>
-          <input
+          <select
             class="login-form-input"
             data-testid="testId-name-input"
-            placeholder="Enter User Name"
-            type="text"
-          />
+          >
+            <option
+              disabled=""
+              selected=""
+              value=""
+            >
+              Select User Name
+            </option>
+            <option
+              value="Sarah Edo"
+            >
+              Sarah Edo
+            </option>
+            <option
+              value="Tyler McGinnis"
+            >
+              Tyler McGinnis
+            </option>
+            <option
+              value="Mike Tsamis"
+            >
+              Mike Tsamis
+            </option>
+            <option
+              value="Zenobia Oshikanlu"
+            >
+              Zenobia Oshikanlu
+            </option>
+          </select>
           <input
             class="login-form-input"
             data-testid="testId-password-input"
@@ -52,12 +78,38 @@ Object {
         Log In
       </h2>
       <form>
-        <input
+        <select
           class="login-form-input"
           data-testid="testId-name-input"
-          placeholder="Enter User Name"
-          type="text"
-        />
+        >
+          <option
+            disabled=""
+            selected=""
+            value=""
+          >
+            Select User Name
+          </option>
+          <option
+            value="Sarah Edo"
+          >
+            Sarah Edo
+          </option>
+          <option
+            value="Tyler McGinnis"
+          >
+            Tyler McGinnis
+          </option>
+          <option
+            value="Mike Tsamis"
+          >
+            Mike Tsamis
+          </option>
+          <option
+            value="Zenobia Oshikanlu"
+          >
+            Zenobia Oshikanlu
+          </option>
+        </select>
         <input
           class="login-form-input"
           data-testid="testId-password-input"
