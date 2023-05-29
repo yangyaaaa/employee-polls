@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# Employee Polls
+
+Employee Polls is a React-based web application that allows employees to answer and create questions to stimulate engagement and interaction within a company. The application utilizes Redux for state management and has a leaderboard feature to incentivize participation.
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+To get started with Employee Polls, follow these steps:
 
-### `npm start`
+1. Clone the repository onto your local machine:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### git clone https://github.com/yangyaaaa/employee-polls.git
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. Navigate into the directory where you cloned the repository:
 
-### `npm test`
+### cd employee-polls
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. Install the dependencies using NPM:
 
-### `npm run build`
+### npm install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Launching the Project
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+After you have installed the dependencies, you can launch the project:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### npm start
 
-### `npm run eject`
+The application should now be running at http://localhost:3000.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Testing
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To run the tests for the application, use:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### npm test
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Features
 
-## Learn More
+Employee Polls application offers the following features:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Dashboard**: The Dashboard provides an overview of all the unanswered and answered questions. It helps the user stay updated about the questions that need attention.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Leaderboard**: The Leaderboard showcases the top-performing users based on their activity. It helps foster a sense of competition and engagement within the organization.
 
-### Code Splitting
+- **Ask Question**: The 'Ask Question' feature allows users to ask new questions, thereby facilitating interactivity and knowledge sharing.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **Redux Implementation**: The state management in the application is handled using Redux, which allows for effective state propagation and ensures the UI is consistent across the application.
 
-### Analyzing the Bundle Size
+- **React Router**: The application uses React Router for navigation. This makes for a seamless and intuitive user experience.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Contributions
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is open to contributions. Please fork this repository and create a pull request if you have some improvements you want to contribute.
