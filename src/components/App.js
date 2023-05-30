@@ -1,9 +1,9 @@
-import PollsList from "./PollsList";
-import { handleInitialData } from "../actions/initData";
 import { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import { LoadingBar } from "react-redux-loading-bar";
-import { Route, Routes } from "react-router";
+import PollsList from "./PollsList";
+import { handleInitialData } from "../actions/initData";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PollDetails from "./PollDetails";
 import AddPoll from "./AddPoll";
 import Leaders from "./Leaderboard";
@@ -17,7 +17,7 @@ function App(props) {
 
   useEffect(() => {
     props.dispatch(handleInitialData());
-  });
+  }, [props.dispatch]);  
 
   const isUserAuthorized = props.authedUser !== null;
 
@@ -46,7 +46,7 @@ function App(props) {
           }
         />
         <Route
-          path="/questions/:id"
+          path="/questions/:question_id"
           element={
             <ProtectedRoute>
               <PollDetails />
@@ -70,7 +70,6 @@ function App(props) {
           }
         />
         <Route path="/login" element={<Login />} />
-
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Fragment>

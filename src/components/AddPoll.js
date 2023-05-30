@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { handleAddPoll } from "../actions/questions";
 import { connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
-import PropTypes from 'prop-types';
+import { useNavigate, Link } from "react-router-dom";
 
 const AddPoll = ({ dispatch, authedUser }) => {
-
   const navigate = useNavigate();
 
   const [firstOptionText, setFirstOptionText] = useState("");
@@ -50,7 +47,7 @@ const AddPoll = ({ dispatch, authedUser }) => {
   return (
     <div className="add-poll-container">
       <form onSubmit={handleAddNewPoll}>
-        <h3>Would you reather</h3>
+        <h3>Would you rather</h3>
         <label>
           Option One:
           <textarea
@@ -75,6 +72,7 @@ const AddPoll = ({ dispatch, authedUser }) => {
           value={"Add new Poll"}
         />
       </form>
+      <Link to="/">Back to Home</Link>
     </div>
   );
 };
@@ -85,12 +83,5 @@ const mapStateToProps = ({ authedUser }) => {
     authedUser,
   };
 };
-
-
-AddPoll.prototype = {
-  authedUser: PropTypes.string.isRequired,
-  dispatch: PropTypes.func.isRequired
-}
-
 
 export default connect(mapStateToProps)(AddPoll);

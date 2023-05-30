@@ -104,8 +104,8 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = ({ users, polls, authedUser }, props) => {
-  const pollId = props.router.params.id;
-
+  const { id } = props;
+  const pollId = id;
   const error = !Object.keys(polls).includes(pollId);
 
   console.log("included: ", error)
