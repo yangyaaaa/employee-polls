@@ -1,32 +1,38 @@
-
+import React from "react";
 import { connect } from "react-redux";
-import { formatDate } from "../utils/helpers";
 import { Link } from "react-router-dom";
+import { formatDate } from "../utils/helpers";
+import { Card, Avatar, Button, Typography } from "antd";
 
-const PollItem = (props) => {
+const { Text } = Typography;
+
+const PollItem = ({ id, name, avatarURL, timestamp }) => {
   return (
-    <Link className="poll-item" to={`/questions/${props.pollId}`} >
-      <h4>{props.pollText} </h4>
-      <div className="poll-metadata">
-      <span className="author-name">created by: {props.authorName.name}</span>
-      <span className="poll-date">creation Date: {props.pollDate}</span>
+    <Card >
+      <div >
+        <Avatar size={48} src={avatarURL} />
+        <div>
+          <Text strong>{name}</Text>
+          <Text type="secondary">{formatDate(timestamp)}</Text>
+        </div>
       </div>
-    </Link>
+      <Link to={`/questions/${id}`}>
+        <Button type="primary" block>
+          Show
+        </Button>
+      </Link>
+    </Card>
   );
 };
 
-const mapStateToProps = ({ polls, users }, { pollId }) => {
-  const poll = polls[pollId];
-  const authorName = users[poll.author];
-  const pollDate = formatDate(poll.timestamp);
-  const pollText = `Would you rather ${poll.optionOne.text} or ${poll.optionTwo.text}?`;
+const mapStateToProps = ({ users, questions }, { id }) => {
+  const question = questions[id];
 
   return {
-    pollId,
-    pollText,
-    authorName,
-    pollDate
-
+    id,
+    name: users[question.author].name,
+    avatarURL: users[question.author].avatarURL,
+    timestamp: question.timestamp,
   };
 };
 

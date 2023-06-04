@@ -1,22 +1,15 @@
+import React from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-export const withRouter = (Component) => {
-  const ComponentWithRouterProp = (props) => {
-    let location = useLocation();
-    let navigate = useNavigate();
-    let params = useParams();
-    return <Component {...props} router={{ location, navigate, params }} />;
-  };
-
-  return ComponentWithRouterProp;
+export const formatDate = timestamp => {
+  const date = new Date(timestamp);
+  const time = date.toLocaleTimeString("en-US").substring(0, 5) + date.toLocaleTimeString("en-US").slice(-2);
+  return `${time} | ${date.toLocaleDateString()}`;
 };
 
-export function formatDate(timestamp) {
-  const d = new Date(timestamp);
-  const time = d.toLocaleTimeString("en-US");
-  return time.substring(0, 5) + time.slice(-2) + " | " + d.toLocaleDateString();
-}
-
-export function getCurrentTimestamp () {
-  return Date.now()
-}
+export const withRouter = Component => props => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const params = useParams();
+  return <Component {...props} router={{ location, navigate, params }} />;
+};

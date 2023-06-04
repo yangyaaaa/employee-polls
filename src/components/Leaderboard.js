@@ -1,53 +1,43 @@
-import { useState, useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import User from "./Users";
-import { _getUsers } from "../utils/_DATA";
-import PropTypes  from 'prop-types'; 
+import { Card, List, Avatar } from 'antd';
+import "./App.css";
 
-
-export function Leaders() {
-  const [users, setUsers] = useState([]);
-  const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    _getUsers().then(fetchedUsers => {
-      const sortedUsers = Object.values(fetchedUsers).sort((a, b) => {
-        const scoreA = a.questions.length + Object.keys(a.answers).length;
-        const scoreB = b.questions.length + Object.keys(b.answers).length;
-        return scoreB - scoreA;  // sort in descending order
-      });
-      setUsers(sortedUsers);
-      setLoading(false)
-    });
-  }, []);
-    if (isLoading) {
-      return <h2>Loading...</h2>;
-    }
-
+const Leaderboard = ({ scoreboard }) => {
   return (
-    <div>
-      {users.map((user, index) => <User key={user.id} userData={user} ranking={index + 1} />)}
-    </div>
+    <Card title="Leaderboard" className="leaderboardCard">
+      <List
+       itemLayout="horizontal"
+       dataSource={scoreboard}
+       renderItem={user => (
+        <List.Item>
+            <List.Item.Meta
+              className="centered-meta"
+              avatar={<Avatar src={user.avatarURL} />}
+              title={<a href={`/users/${user.id}`}>{user.name}</a>}
+              description={`Answered: ${Object.keys(user.answers).length} | Created: ${user.questions.length}`}
+            />
+          </List.Item>
+        )}
+      />
+    </Card>
   );
-}
+};
 
 const mapStateToProps = ({ users }) => {
-  const rankedUsers = Object.values(users).sort((user1, user2) => {
-    const secondUserRank =
-      Object.keys(user2.answers).length + user2.questions.length;
-    const firstUserRank =
-      Object.keys(user1.answers).length + user1.questions.length;
-    return secondUserRank - firstUserRank;
-  });
-
   return {
-    rankedUsers,
+    scoreboard: Object.values(users)
+      .sort((a, b) => {
+        const la = Object.keys(a.answers).length;
+        const lb = Object.keys(b.answers).length;
+        return lb - la;
+      })
+      .sort((a, b) => {
+        const la = Object.keys(a.questions).length;
+        const lb = Object.keys(b.questions).length;
+        return lb - la;
+      }),
   };
 };
 
-export default connect(mapStateToProps)(Leaders);
-
-
-Leaders.prototype ={
-  rankedUsers: PropTypes.string.isRequired
-}
+export default connect(mapStateToProps)(Leaderboard);

@@ -3,6 +3,8 @@
 This is a final project from Udacity React Nano Degree Course, provided with starter code and dummy data.<br/>
 Employee Polls is a React-based web application that allows employees to answer and create questions to stimulate engagement and interaction within a company. The application utilizes Redux for state management and has a leaderboard feature to incentivize participation.
 
+**This project also includes 10 passing unit test and one spapshot test with jest, @testing-library/react, and @testing-library/jest-dom.**
+
 ![Login Image](https://github.com/yangyaaaa/employee-polls/blob/main/screen-shot.png)
 
 ## Getting Started with Create React App
@@ -33,7 +35,7 @@ After you have installed the dependencies, you can launch the project:
 
 The application should now be running at http://localhost:3000.
 
-**Once the user name is selected on login page, the password should automatically pop up.**
+You can choose any users' account to log in.
 
 ## Testing
 

@@ -1,25 +1,35 @@
-export const GET_USERS ="GET_ALL_USERS";
-export const SET_USER_ANSWER ="GET_USER_ANSWER";
-export const UPDATE_USER_QUESTIONS ="UPDATE_USER_QUESTIONS";
+const RECEIVE_USERS = "RECEIVE_USERS";
+const SAVE_ANSWER = "SAVE_ANSWER";
+const CREATE_QUESTION = "CREATE_QUESTION";
 
+const receiveUsers = (users) => {
+return { 
+  type: RECEIVE_USERS, 
+  users };
+};
 
+const saveAnswer = (userId, questionId, answerId) => {
+return {
+  type: SAVE_ANSWER,
+  authedUser: userId,
+  qid: questionId,
+  answer: answerId,
+};
+};
 
-export function getUsers(users){
-    return{
-        type: GET_USERS,
-        users
-    }
-}
-export function setUserAnswer(userId, pollId, answer){
-    return{
-        type: SET_USER_ANSWER,
-        userId, pollId, answer
-    }
-}
+const createQuestion = ({ id, author }) => {
+return {
+  type: CREATE_QUESTION,
+  id,
+  author,
+};
+};
 
-export function updateUserQuestions (pollId, userId){
-    return{
-        type: UPDATE_USER_QUESTIONS,
-        pollId, userId
-    } 
-}
+export { 
+  RECEIVE_USERS, 
+  SAVE_ANSWER, 
+  CREATE_QUESTION, 
+  receiveUsers, 
+  saveAnswer, 
+  createQuestion 
+};

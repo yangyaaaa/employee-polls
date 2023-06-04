@@ -1,81 +1,61 @@
-import { render, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { MemoryRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
+import configureStore from "redux-mock-store";
+import thunk from "redux-thunk";
+import reducer from "../reducers";
 import Login from "../components/Login";
-import userReducer from "../../reducers/users";
-import authedUserReducer from "../../reducers/authedUser";
+const mockStore = configureStore([thunk]);
 
-describe("<Login />", () => {
-  let store;
-  let component;
+describe("Login", () => {
+  let store, component;
 
   beforeEach(() => {
-    store = configureStore({
-      reducer: {
-        users: userReducer,
-        authedUser: authedUserReducer,
+    store = mockStore({
+      authedUser: null,
+      users: {
+        mtsamis: {
+          id: "mtsamis",
+          name: "Mike Tsamis",
+        },
+        zoshikanlu: {
+          id: "zoshikanlu",
+          name: "Zenobia Oshikanlu",
+        },
       },
     });
 
-    store.dispatch({
-      type: "users/add",
-      payload: {
-        id: "sarahedo",
-        name: "Sarah Edo",
-        password: "password123",
-      },
-    });
+    store.replaceReducer(reducer);
 
     component = render(
       <Provider store={store}>
-        <Login />
+        <Router>
+          <Login />
+        </Router>
       </Provider>
     );
   });
 
-  it("should render without crashing", () => {
-    expect(component).toBeTruthy();
+  it("should show an option for each user", async () => {
+    const options = screen.queryAllByRole("option").map((option) => ({
+      id: option.value,
+      name: option.textContent,
+    }));
+    const users = Object.values(store.getState().users);
+    users.forEach((user) => {
+      const option = options.filter(({ id }) => id === user.id).pop();
+      expect(option).toMatchObject(user);
+    });
   });
 
-  it("should update username select value and password on change", async () => {
-    const usernameSelect = component.getByTestId("testId-name-input");
-    fireEvent.change(usernameSelect, { target: { value: "Sarah Edo" } });
-
-    const passwordInput = component.getByTestId("testId-password-input");
-
-    await waitFor(() => expect(usernameSelect.value).toBe("Sarah Edo"));
-
-    // password field should be updated automatically when username is selected
-    expect(passwordInput.value).toBe("password123");
+  it("should select a user", () => {
+    const dropdown = screen.getByRole("combobox");
+    const option = screen.getByRole("option", { name: "Mike Tsamis" });
+    fireEvent.change(dropdown, { target: { value: option.value } });
+    expect(option.selected).toBe(true);
   });
 
-  it("should not allow the password field to be manually edited", () => {
-    const passwordInput = component.getByTestId("testId-password-input");
-    fireEvent.change(passwordInput, { target: { value: "newPassword" } });
-    expect(passwordInput.value).toBe("password123");
-  });
-
-  it("should display error message when trying to log in without valid credentials", async () => {
-    const usernameSelect = component.getByTestId("testId-name-input");
-    fireEvent.change(usernameSelect, { target: { value: "Invalid User" } });
-
-    const submitButton = component.getByTestId("testId-submit-button");
-    fireEvent.click(submitButton);
-
-    const errorMessage = await component.findByTestId("error-notifier");
-
-    expect(errorMessage.textContent).toBe("Invalide user Log In");
-  });
-
-  it("should successfully log in with valid credentials", async () => {
-    const usernameSelect = component.getByTestId("testId-name-input");
-    fireEvent.change(usernameSelect, { target: { value: "Sarah Edo" } });
-
-    const submitButton = component.getByTestId("testId-submit-button");
-    fireEvent.click(submitButton);
-
-    await waitFor(() =>
-      expect(store.getState().authedUser).toBe("sarahedo")
-    );
+  it("should match the snapshot", () => {
+    expect(component).toMatchSnapshot();
   });
 });

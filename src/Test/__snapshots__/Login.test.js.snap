@@ -1,136 +1,88 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Login /> should match previous snapshot 1`] = `
+exports[`Login should match the snapshot 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
       <div>
-        <img
-          alt="employee poll"
-          class="login-pic"
-          src="https://i.ibb.co/9pMsBJX/employee.png"
-        />
-        <h2>
-          Log In
-        </h2>
-        <form>
-          <select
-            class="login-form-input"
-            data-testid="testId-name-input"
-          >
-            <option
-              disabled=""
-              selected=""
-              value=""
-            >
-              Select User Name
-            </option>
-            <option
-              value="Sarah Edo"
-            >
-              Sarah Edo
-            </option>
-            <option
-              value="Tyler McGinnis"
-            >
-              Tyler McGinnis
-            </option>
-            <option
-              value="Mike Tsamis"
-            >
-              Mike Tsamis
-            </option>
-            <option
-              value="Zenobia Oshikanlu"
-            >
-              Zenobia Oshikanlu
-            </option>
-          </select>
-          <input
-            class="login-form-input"
-            data-testid="testId-password-input"
-            placeholder="Enter Password"
-            readonly=""
-            type="password"
-            value=""
+        <div>
+          <img
+            alt="employee polls"
+            class="login-pic"
+            src="https://i.ibb.co/9pMsBJX/employee.png"
           />
-          <input
-            class="login-form-input"
-            data-testid="testId-submit-button"
-            type="submit"
-          />
-          <span
-            data-testid="error-notifier"
-            id="errorMessage"
-            style="color: red;"
-          />
-        </form>
+          <h2>
+            Login
+          </h2>
+          <form>
+            <div>
+              <select
+                id="login-as"
+                name="user"
+                role="combobox"
+              >
+                <option
+                  selected=""
+                  value=""
+                >
+                  Select a user
+                </option>
+                <option
+                  value="mtsamis"
+                >
+                  Mike Tsamis
+                </option>
+                <option
+                  value="zoshikanlu"
+                >
+                  Zenobia Oshikanlu
+                </option>
+              </select>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </body>,
   "container": <div>
     <div>
-      <img
-        alt="employee poll"
-        class="login-pic"
-        src="https://i.ibb.co/9pMsBJX/employee.png"
-      />
-      <h2>
-        Log In
-      </h2>
-      <form>
-        <select
-          class="login-form-input"
-          data-testid="testId-name-input"
-        >
-          <option
-            disabled=""
-            selected=""
-            value=""
-          >
-            Select User Name
-          </option>
-          <option
-            value="Sarah Edo"
-          >
-            Sarah Edo
-          </option>
-          <option
-            value="Tyler McGinnis"
-          >
-            Tyler McGinnis
-          </option>
-          <option
-            value="Mike Tsamis"
-          >
-            Mike Tsamis
-          </option>
-          <option
-            value="Zenobia Oshikanlu"
-          >
-            Zenobia Oshikanlu
-          </option>
-        </select>
-        <input
-          class="login-form-input"
-          data-testid="testId-password-input"
-          placeholder="Enter Password"
-          readonly=""
-          type="password"
-          value=""
+      <div>
+        <img
+          alt="employee polls"
+          class="login-pic"
+          src="https://i.ibb.co/9pMsBJX/employee.png"
         />
-        <input
-          class="login-form-input"
-          data-testid="testId-submit-button"
-          type="submit"
-        />
-        <span
-          data-testid="error-notifier"
-          id="errorMessage"
-          style="color: red;"
-        />
-      </form>
+        <h2>
+          Login
+        </h2>
+        <form>
+          <div>
+            <select
+              id="login-as"
+              name="user"
+              role="combobox"
+            >
+              <option
+                selected=""
+                value=""
+              >
+                Select a user
+              </option>
+              <option
+                value="mtsamis"
+              >
+                Mike Tsamis
+              </option>
+              <option
+                value="zoshikanlu"
+              >
+                Zenobia Oshikanlu
+              </option>
+            </select>
+          </div>
+        </form>
+      </div>
     </div>
   </div>,
   "debug": [Function],

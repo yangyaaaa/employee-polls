@@ -1,32 +1,29 @@
-import { showLoading, hideLoading } from "react-redux-loading-bar";
-import { savePoll } from "../utils/api";
-import {updateUserQuestions} from "./users";
+const RECEIVE_QUESTIONS = "RECEIVE_QUESTIONS";
+const SAVE_VOTE = "SAVE_VOTE";
+const ADD_QUESTION = "ADD_QUESTION";
 
-export const GET_POLLS = "GET_ALL_POLLS";
-export const CREATE_POLL = "CREATE_POLL";
+const receiveQuestions = (questions) => ({
+  type: RECEIVE_QUESTIONS,
+  questions,
+});
 
-export function getPolls(polls) {
-  return {
-    type: GET_POLLS,
-    polls,
-  };
-}
+const saveVote = (authedUser, qid, answer) => ({
+  type: SAVE_VOTE,
+  authedUser,
+  qid,
+  answer,
+});
 
-function createPoll(poll) {
-  return {
-    type: CREATE_POLL,
-    poll,
-  };
-}
+const addQuestion = (question) => ({
+  type: ADD_QUESTION,
+  question,
+});
 
-export function handleAddPoll(poll) {
-  return (dispatch) => {
-    dispatch(showLoading);
-    savePoll(poll)
-      .then((poll) => {
-        dispatch(createPoll(poll));
-        dispatch(updateUserQuestions(poll.id, poll.author))
-      })
-      .then(() => dispatch(hideLoading));
-  };
-}
+export {
+  RECEIVE_QUESTIONS,
+  SAVE_VOTE,
+  ADD_QUESTION,
+  receiveQuestions,
+  saveVote,
+  addQuestion,
+};

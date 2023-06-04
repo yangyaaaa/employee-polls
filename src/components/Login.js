@@ -1,104 +1,70 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { setAuthedUser } from "../actions/authedUser";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import "./App.css";
+import { setAuthedUser } from "../actions/authedUser";
+import Nav from "./Nav";
 
-const Login = (props) => {
-  const navigate = useNavigate();
-  const {state} = useLocation();
-  const [userName, setUserName] = useState("");
-  const [password, setUserPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+const Login = ({ users, dispatch, authedUser }) => {
+  const [selectedUser, setSelectedUser] = useState("");
 
-
-  const autheduser = Object.values(props.users).filter((user) => {
-    return user.name === userName && user.password === password;
-  });
-
-  const handleLogIn = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    if (!autheduser || userName === "" || password === "" || autheduser.length === 0) {
-      setErrorMessage("Invalide user Log In");
-    } else {
-      console.log("autheduser: ", autheduser);
-      props.dispatch(setAuthedUser(autheduser[0].id));
-      setErrorMessage("success");
-      console.log("location.pathname", state?.pathname);
-      navigate(state?.pathname || "/");
-    }
-  };
-  
-
-  const handleUserName = (e) => {
-    setUserName(e.target.value);
+    dispatch(setAuthedUser(selectedUser));
   };
 
-  // listen to userName changes and set password accordingly
-  useEffect(() => {
-    const selectedUser = Object.values(props.users).find(
-      (user) => user.name === userName
-    );
-    if (selectedUser) {
-      setUserPassword(selectedUser.password);
-    }
-  }, [userName, props.users]);
-
-  const handleUserPassword = (e) => {
-    const password = e.target.value;
-    console.log(password);
-    setUserPassword(password);
+  const handleSelectUser = ({ target }) => {
+    const id =
+      target.value !== ""
+        ? users.filter(({ id }) => id === target.value)[0].id
+        : "";
+    setSelectedUser(id);
   };
 
   return (
     <div>
-      <img
+    {authedUser !== null && <Nav />}
+        <div>
+        <img
           src={
             "https://i.ibb.co/9pMsBJX/employee.png"
           }
-          alt= 'employee poll'
+          alt= 'employee polls'
           className="login-pic"
         />
-        <h2>Log In</h2>
-      <form onSubmit={handleLogIn}>
-      <select
-          data-testid="testId-name-input"
-          className="login-form-input"
-          onChange={handleUserName}
-          value = {userName}
-        >
-          <option disabled value="">Select User Name</option>
-          {Object.values(props.users).map(user => (
-            <option key={user.id} value={user.name}>
-              {user.name}
-            </option>
-          ))}
-        </select>
-       <input
-          data-testid="testId-password-input"
-          type="password"
-          className="login-form-input"
-          placeholder={"Enter Password"}
-          value={password} // Here, password is now a controlled component
-          readOnly  // make password field read-only as it should not be editable
-        />
-        <input
-          data-testid="testId-submit-button"
-          type="submit"
-          className="login-form-input"
-        />
-        <span
-          id="errorMessage"
-          style={{ color: "red" }}
-          data-testid="error-notifier"
-        >
-          {errorMessage}
-        </span>
-      </form>
-    </div>
+          <h2>Login</h2>
+          <form >
+            <div >
+              <select
+                name="user"
+                id="login-as"
+                onChange={handleSelectUser}
+                defaultValue={selectedUser}
+                role="combobox"
+              >
+                <option value="">Select a user</option>
+                {users.map(({ id, name }) => (
+                  <option key={id} value={id}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {users.length !== 0 && selectedUser !== "" && (
+              <button onClick={handleLogin}>
+                Login
+              </button>
+            )}
+          </form>
+        </div>
+        </div>
   );
 };
 
-const mapStateToProps = (props) => props;
+const mapStateToProps = ({ users, authedUser }) => {
+  return {
+    users: Object.values(users),
+    authedUser: authedUser,
+  };
+};
 
 export default connect(mapStateToProps)(Login);
